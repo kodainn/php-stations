@@ -8,7 +8,7 @@ class Dog
     protected $gender;
     private $age;
 
-    function __construct()
+    public function __construct()
     {
         $this->name = "pochi";
         $this->gender = "male";
@@ -16,8 +16,8 @@ class Dog
     }
 }
 
-function main() {
-
+function main()
+{
     $i = 100;
 
     for ($i=0; $i<=3; $i++) {

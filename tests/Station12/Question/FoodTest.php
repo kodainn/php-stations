@@ -35,10 +35,8 @@ class FoodTest extends TestCase
         $food = new ReflectionClass(Food::class);
 
         try {
-
             $food->getProperty('useByDate');
             $this->assertTrue(true);
-
         } catch (ReflectionException $e) {
             $this->fail($e->getMessage());
         }
@@ -52,8 +50,7 @@ class FoodTest extends TestCase
         int $originalPrice,
         \Closure $useByDate,
         int $expected
-    ): void
-    {
+    ): void {
         $food = new Food($originalPrice, $useByDate());
         $actual = $food->price();
 

@@ -4,50 +4,51 @@ namespace Src\Station11;
 
 class Practice
 {
-    /**
-     * 4 人(man:2, woman:2)で 1 組の計 3 チームを作成して出力する
-     * - 生徒の人数は 12 人(man:6, woman:6)で固定であり、生徒が余ることはない
-     * - 出席番号が連番になっている同性の生徒は別チームに所属する
-     */
-    public function main($students)
+    public function main(array $sweets): array
     {
-        $men = [];
-        $women = [];
-        foreach ($students as $student) {
-            switch ($student['gender']) {
-            case 'man':
-                $men[] = $student;
-                break;
-            case 'woman':
-                $women[] = $student;
-                break;
+        $lessThanBudgetSweets = self::getSweetsLessThanBudget($sweets, 300);
+        $budgetKeys = self::getRandomKeys($lessThanBudgetSweets, 300);
+        $makeCom = self::makeCombination($sweets, $budgetKeys);
+
+        print_r($makeCom);
+        return $makeCom;
+    }
+
+    private function getSweetsLessThanBudget(array $sweets, int $budget)
+    {
+        $newArray = array_map(function ($value) use ($budget) {
+            if ($value['price'] <= $budget) {
+                return $value;
             }
+        }, $sweets);
+
+        return $newArray;
+    }
+
+    private function getRandomKeys(array $lessThanBudgetSweets, int $budget)
+    {
+        $sum = 0;
+        $newArray = [];
+        do {
+            $sum = 0;
+            $newArray = [];
+            for ($i = 0; $i < 3; $i++) {
+                $random = rand(0, count($lessThanBudgetSweets) - 1);
+                $sum += $lessThanBudgetSweets[$random]['price'];
+                $newArray[] = $lessThanBudgetSweets[$random];
+            }
+        } while ($sum > $budget);
+
+        return $newArray;
+    }
+
+    private function makeCombination(array $sweets, array $keys)
+    {
+        $newArray = [];
+        foreach ($keys as $k) {
+            $newArray[] = $sweets[$k];
         }
 
-        $teams = [[], [], []];
-        foreach ($men as $key => $man) {
-            $teams[$key%3][] = $man;
-        }
-        foreach ($women as $key => $woman) {
-            $teams[$key%3][] = $woman;
-        }
-
-        print_r($teams);
+        return $newArray;
     }
 }
-
-$students = [
-    ['id' => 1, 'gender' => 'man'],
-    ['id' => 2, 'gender' => 'man'],
-    ['id' => 3, 'gender' => 'woman'],
-    ['id' => 4, 'gender' => 'man'],
-    ['id' => 5, 'gender' => 'woman'],
-    ['id' => 6, 'gender' => 'man'],
-    ['id' => 7, 'gender' => 'woman'],
-    ['id' => 8, 'gender' => 'woman'],
-    ['id' => 9, 'gender' => 'woman'],
-    ['id' => 10, 'gender' => 'man'],
-    ['id' => 11, 'gender' => 'man'],
-    ['id' => 12, 'gender' => 'woman'],
-];
-(new Practice())->main($students);

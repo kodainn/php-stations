@@ -33,8 +33,7 @@ class QuestionTest extends TestCase
         int $originalPrice,
         \Closure $useByDate,
         int $expected
-    ): void
-    {
+    ): void {
         $actual = (new Question)->main($originalPrice, $useByDate());
 
         $this->assertEquals($expected, $actual);

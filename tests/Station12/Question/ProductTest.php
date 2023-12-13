@@ -20,10 +20,8 @@ class ProductTest extends TestCase
         $product = new ReflectionClass(Product::class);
 
         try {
-
             $product->getProperty('originalPrice');
             $this->assertTrue(true);
-
         } catch (ReflectionException $e) {
             $this->fail($e->getMessage());
         }

@@ -6,7 +6,11 @@ class Practice3
 {
     public function main(): void
     {
-        // ここにサンプルコードを記述
+        $colors = ['red', 'blue', 'yellow'];
+        array_unshift($colors, 'white', 'black');
+        array_splice($colors, 4, 1);
+        array_splice($colors, 3, 0, 'green');
+        print_r($colors);
     }
 }
 
